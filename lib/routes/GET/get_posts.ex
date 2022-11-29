@@ -4,6 +4,7 @@ defmodule Dotor.Get.GetPosts do
   """
   def get(conn) do
     alias Dotor.Controllers.Response, as: Resp
+    require Logger
 
     {:ok, conne} =
       Mongo.start_link(
@@ -26,6 +27,7 @@ defmodule Dotor.Get.GetPosts do
       )
     )
 
-    # Stop connecion
+    # Stop connection
+    Dotor.Database.StopConnection.stop(conne)
   end
 end

@@ -7,7 +7,7 @@ defmodule Dotor.Captcha.Get do
     alias Dotor.Controllers.Response, as: Resp
     require Logger
     ip = Dotor.Utils.RemoteIp.get(conn)
-    random_word = for _ <- 1..6, into: "", do: <<Enum.random('0123456789abcdef')>>
+    random_word = for _ <- 1..6, into: "", do: <<Enum.random('012345689abcdefg')>>
     # Crea la imagen
     # guarda la imagen
     # https://dotor-captcha-api.elpanajose.repl.co/?ip=#{ip}&word=#{random_word}
@@ -36,11 +36,15 @@ defmodule Dotor.Captcha.Get do
       ## insert the data
       # Sí, ip es el nombre de la db
       Mongo.insert_one(conne, ip, data_to_insert)
+
       Resp.send_file(
         conn,
         200,
         "lib/utils/captcha_images/#{ip}.png"
       )
+
+      # Cerrar la conexión
+      Dotor.Database.StopConnection.stop(conne)
     end
   end
 end

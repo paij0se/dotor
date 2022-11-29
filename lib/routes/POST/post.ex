@@ -94,5 +94,7 @@ defmodule Dotor.Post.PostText do
 
     # borrar toda esa monda para que le vuelva a pedir
     Mongo.drop_collection(conne, "#{ip}")
+    # cerrar la maldira conexión
+    Dotor.Database.StopConnection.stop(conne)
   end
 end

@@ -52,6 +52,9 @@ defmodule Dotor.Captcha.Post do
         200,
         Jason.encode!("ok")
       )
+
+      # Cerrar la conexión
+      Dotor.Database.StopConnection.stop(conne)
     else
       Resp.send_resp(
         conn |> Resp.put_resp_content_type("application/json"),
