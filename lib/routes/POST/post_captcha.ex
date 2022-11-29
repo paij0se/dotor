@@ -21,6 +21,7 @@ defmodule Dotor.Captcha.Post do
     {:ok, conne} =
       Mongo.start_link(
         url: System.get_env("MONGO_URI"),
+        pool_size: 3,
         username: System.get_env("MONGO_USER"),
         password: System.get_env("MONGO_PASS")
       )
@@ -46,7 +47,6 @@ defmodule Dotor.Captcha.Post do
       ## insert the data
       Mongo.insert_one(conne, ip, data_to_insert)
       # Stop cooanfjlfl...
-      Mongo.Topology.stop(conne)
       Resp.send_resp(
         conn |> Resp.put_resp_content_type("application/json"),
         200,

@@ -21,6 +21,7 @@ defmodule Dotor.Captcha.Get do
     {:ok, conne} =
       Mongo.start_link(
         url: System.get_env("MONGO_URI"),
+        pool_size: 3,
         username: System.get_env("MONGO_USER"),
         password: System.get_env("MONGO_PASS")
       )
@@ -35,7 +36,6 @@ defmodule Dotor.Captcha.Get do
       ## insert the data
       # Sí, ip es el nombre de la db
       Mongo.insert_one(conne, ip, data_to_insert)
-      Mongo.Topology.stop(conne)
       Resp.send_file(
         conn,
         200,

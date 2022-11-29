@@ -185,6 +185,7 @@
   :global(body) {
     background-color: #fffaf3;
     color: #c4a7e7;
+    transition: background-color 1s;
   }
   h1 {
     font-family: "Cascadia Code";

@@ -8,6 +8,7 @@ defmodule Dotor.Get.GetPosts do
     {:ok, conne} =
       Mongo.start_link(
         url: System.get_env("MONGO_URI"),
+        pool_size: 3,
         username: System.get_env("MONGO_USER"),
         password: System.get_env("MONGO_PASS")
       )
@@ -26,6 +27,5 @@ defmodule Dotor.Get.GetPosts do
     )
 
     # Stop connecion
-    Mongo.Topology.stop(conne)
   end
 end
