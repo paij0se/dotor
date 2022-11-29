@@ -44,7 +44,7 @@
 
   async function captcha() {
     document.getElementById("captcha").src = "skull.gif";
-    const res = await fetch(`${mainUrl}/api/v1/get/captcha`);
+    const res = await fetch(`${mainUrl}api/v1/get/captcha`);
     const image = res.url;
     console.log(image);
     document.getElementById("captcha").src = image;
