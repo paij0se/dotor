@@ -28,7 +28,6 @@
         },
       });
       const json = await res.json();
-      //console.log(json);
       if (json == "ok") {
         document.getElementById(
           "captcha-status"
@@ -47,6 +46,8 @@
     const res = await fetch(`${mainUrl}api/v1/get/captcha`);
     const image = res.url;
     //console.log(image);
+    const but = document.getElementById("pedir-c");
+    but.onclick = "";
     document.getElementById("captcha").src = image;
   }
   //////////////////////////////////////////////////////////////////
@@ -140,7 +141,9 @@
   <br />
 
   <div id="captcha-container">
-    <button type="button" id="pedir-c" on:click={captcha}>Pedir Captcha</button>
+    <button type="button" id="pedir-c" on:click|once={captcha}
+      >Pedir Captcha</button
+    >
     <img id="waiting" alt="" />
     <!-- svelte-ignore a11y-missing-attribute -->
     <img id="captcha" />
