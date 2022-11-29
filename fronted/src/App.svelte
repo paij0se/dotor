@@ -8,7 +8,6 @@
   } else {
     mainUrl = "https://dotor.elpanajose.repl.co/";
   }
-  const admin = "4b84b15bff6ee5796152495a230e45e3d7e947d9";
   function unixTimeToDate(time) {
     const date = new Date(time * 1000);
     return date.toLocaleString();
@@ -86,43 +85,48 @@
   async function doPost() {
     const inp = document.getElementById("n").value;
     var name = document.getElementById("name").value;
+
     if (name == 0) {
       name = "Anon";
     }
     if (inp == "") {
       alert("Tu texto está vacio!");
     } else {
-      const res = await fetch(`${mainUrl}api/v1/post`, {
-        method: "POST",
-        body: JSON.stringify({ text: inp, name: name }),
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-      const json = await res.json();
-      //console.log(json);
-      // cerror = captcha error
-      if (json[0] == "cerror") {
-        json.user_id = `<h1 style="color:#B22222;">${json[1]}</h1>`;
-        json.posted_at = -15059544297;
-      }
-      if (json[0] == "error") {
-        json.user_id = `
+      if (name.length > 32) {
+        alert("¡El máximo permitido para el nombre son 32 caracteres!");
+      } else {
+        const res = await fetch(`${mainUrl}api/v1/post`, {
+          method: "POST",
+          body: JSON.stringify({ text: inp, name: name }),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+        const json = await res.json();
+        //console.log(json);
+        // cerror = captcha error
+        if (json[0] == "cerror") {
+          json.user_id = `<h1 style="color:#B22222;">${json[1]}</h1>`;
+          json.posted_at = -15059544297;
+        }
+        if (json[0] == "error") {
+          json.user_id = `
         <img width=20%; height=auto  ; src="nao.jpg">
         <h1 style="color:#B22222;">!Error¡ Solo 818 caracteres o menos</h1>
         <h1 style="color:#B22222;">${json[1]}</h1>
         `;
-        json.posted_at = -15059544297;
-      }
-      // TODO: Mover esto a Svelte realmente...
-      document.getElementById("response").innerHTML += ` 
+          json.posted_at = -15059544297;
+        }
+        // TODO: Mover esto a Svelte realmente...
+        document.getElementById("response").innerHTML += ` 
       <p>${unixTimeToDate(json.posted_at)}</p>
       <p>${json.user_id}</p>
       `;
-      document.getElementById("response").innerHTML += json.text.replace(
-        /</g,
-        "<span><</span>"
-      );
+        document.getElementById("response").innerHTML += json.text.replace(
+          /</g,
+          "<span><</span>"
+        );
+      }
     }
   }
 </script>
@@ -162,7 +166,7 @@
       <input id="name" placeholder="Anónimo" />
       <br />
       <textarea rows="10" id="n" placeholder="¿Qué estas pensando?" />
-      <button type="button" id="post-b" on:click={doPost}>Post</button>
+      <button type="button" id="post-b" on:click={doPost}>Enviar</button>
       <div id="response-b" />
     </div>
 
