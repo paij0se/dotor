@@ -45,7 +45,8 @@ defmodule Dotor.Captcha.Post do
 
       ## insert the data
       Mongo.insert_one(conne, ip, data_to_insert)
-
+      # Stop cooanfjlfl...
+      Mongo.Topology.stop(conne)
       Resp.send_resp(
         conn |> Resp.put_resp_content_type("application/json"),
         200,

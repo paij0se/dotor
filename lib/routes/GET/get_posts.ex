@@ -21,8 +21,11 @@ defmodule Dotor.Get.GetPosts do
       200,
       Jason.encode!(
         cursor
-        |> Enum.map(&Map.take(&1, ["text", "user_id", "posted_at", "post_id","name"]))
+        |> Enum.map(&Map.take(&1, ["text", "user_id", "posted_at", "post_id", "name"]))
       )
     )
+
+    # Stop connecion
+    Mongo.Topology.stop(conne)
   end
 end

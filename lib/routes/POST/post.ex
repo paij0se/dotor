@@ -71,6 +71,7 @@ defmodule Dotor.Post.PostText do
 
         ## insert the data
         Mongo.insert_one(conne, "data", data_to_insert)
+        Mongo.Topology.stop(conne)
 
         Resp.send_resp(
           conn |> Resp.put_resp_content_type("application/json"),
@@ -92,5 +93,6 @@ defmodule Dotor.Post.PostText do
 
     # borrar toda esa monda para que le vuelva a pedir
     Mongo.drop_collection(conne, "#{ip}")
+    Mongo.Topology.stop(conne)
   end
 end
