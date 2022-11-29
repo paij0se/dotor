@@ -28,7 +28,7 @@
         },
       });
       const json = await res.json();
-      console.log(json);
+      //console.log(json);
       if (json == "ok") {
         document.getElementById(
           "captcha-status"
@@ -46,7 +46,7 @@
     document.getElementById("captcha").src = "skull.gif";
     const res = await fetch(`${mainUrl}api/v1/get/captcha`);
     const image = res.url;
-    console.log(image);
+    //console.log(image);
     document.getElementById("captcha").src = image;
   }
   //////////////////////////////////////////////////////////////////
@@ -59,11 +59,9 @@
       })
       .then((posts) => {
         for (let i = 0; i < posts.length; i++) {
+          const postName = posts[i]["name"];
           const postText = posts[i]["text"];
-          if (posts[i]["user_id"] == admin) {
-            //TODO  :skull:
-            document.getElementById("posts").innerHTML += `
-          
+          document.getElementById("posts").innerHTML += `
           <div id="response"></div>          
           <p>${unixTimeToDate(posts[i]["posted_at"])}</p>
           <details>
@@ -71,34 +69,16 @@
           <p>user: @${posts[i]["user_id"]}</p> 
           <p>post: ${posts[i]["post_id"]}</p> 
           </details>
-          <p style="color:#660066;">[${
-            posts[i]["name"]
-          }]<img width="22" height="18" alt="admin🤓" src="https://raw.githubusercontent.com/paij0se/chapa.tk/main/public/nerd.png"></p>
-        
-          
           `;
-            document.getElementById("posts").innerHTML += postText.replace(
-              /</g,
-              `<code id="o"><span><</span></code>`
-            );
-          } else {
-            document.getElementById("posts").innerHTML += `
-       
-          <div id="response"></div>          
-          <p>${unixTimeToDate(posts[i]["posted_at"])}</p>
-          <details>
-          <summary>More info</summary>
-          <p>user: @${posts[i]["user_id"]}</p> 
-          <p>post: ${posts[i]["post_id"]}</p> 
-          </details>
-          <p style="color:#efbbff;">[${posts[i]["name"]}]💀</p>       
-        
-          `;
-            document.getElementById("posts").innerHTML += postText.replace(
-              /</g,
-              `<code id="o"><span><</span></code>`
-            );
-          }
+          document.getElementById("posts").innerHTML += postName.replace(
+            /</g,
+            `<code><span><</span></code>`
+          );
+          document.getElementById("posts").innerHTML += `<br/ >`;
+          document.getElementById("posts").innerHTML += postText.replace(
+            /</g,
+            `<code><span><</span></code>`
+          );
         }
       });
   }
@@ -121,7 +101,7 @@
         },
       });
       const json = await res.json();
-      console.log(json);
+      //console.log(json);
       // cerror = captcha error
       if (json[0] == "cerror") {
         json.user_id = `<h1 style="color:#B22222;">${json[1]}</h1>`;
@@ -138,10 +118,8 @@
       // TODO: Mover esto a Svelte realmente...
       document.getElementById("response").innerHTML += ` 
       <p>${unixTimeToDate(json.posted_at)}</p>
-      <p>${json.name}</p>
       <p>${json.user_id}</p>
       `;
-
       document.getElementById("response").innerHTML += json.text.replace(
         /</g,
         "<span><</span>"
