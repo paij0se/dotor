@@ -38,10 +38,11 @@ defmodule Dotor.Post.PostText do
 
       # limite de caracteres
       # TODO: Rate limit y conectar con mongo atlas. (ya)
-      if byte_size(text) > 818 or byte_size(text) == 0 or byte_size(name) == 0 do
+      if byte_size(text) > 818 or byte_size(text) == 0 or byte_size(name) == 0 or
+           byte_size(name) > 32 do
         conn
         |> Resp.put_resp_content_type("application/json")
-        |> Resp.send_resp(400, Jason.encode!(["error", "Only allowed 818 characters or less"]))
+        |> Resp.send_resp(400, Jason.encode!(["error", "Only allowed 818 characters or less and 32 characters for the name!"]))
       else
         ip = Dotor.Utils.RemoteIp.get(conn)
         # el id_user es la ip encriptada
